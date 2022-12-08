@@ -3,6 +3,9 @@
 This is a very simple project to experiment with the "[Virtual Threads](https://www.infoq.com/articles/java-virtual-threads/)" feature introduced in Java 19.
 The idea is to see how we can control concurrency when using Virtual Threads, given that right now there is no equivalent to the fixed-size pool of native threads that can be created using `Executors.newFixedThreadPool`. This set of classes constitute a [JMH](https://github.com/openjdk/jmh) benchmark that can be used to compare different strategies.
 
+I also wrote an article about the rationale behind it at my blog: [On (virtual) threads and pools
+](https://www.greeneyed.org/post/virtual-threads-part-i/)
+
 ## Main classes
 *  **[ThrottledVirtualThreadsExecutor](https://github.com/Verdoso/jmh-throttled-virtual-threads/blob/master/src/main/java/org/greeneyed/jmh_throttled_virtual_threads/ThrottledVirtualThreadsExecutor.java)** is the ExecutorService implementation, that might be used instead of `java.util.concurrent.ThreadPoolExecutor`, that uses Virtual Threads to execute the tasks submitted but limits concurrency of thhe submmitted tasks to the limit specified when creating the instance.
 *  **[VirtualThreadsTester](https://github.com/Verdoso/jmh-throttled-virtual-threads/blob/master/src/main/java/org/greeneyed/jmh_throttled_virtual_threads/VirtualThreadsTester.java)** is the class that performs the experiment. In particular, its `cpuConsumingMethod()` is the one that the tasks execute concurrently to see the differences. This class can perform the experiment using two strategies, using the aforementioned `ThrottledVirtualThreadsExecutor` or a simple `Executors.newVirtualThreadPerTaskExecutor()`.
